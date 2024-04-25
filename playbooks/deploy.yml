@@ -1,0 +1,5 @@
+- name: Running Deploy Playbooks
+  hosts: all
+  become: true
+  roles: 
+    - 
