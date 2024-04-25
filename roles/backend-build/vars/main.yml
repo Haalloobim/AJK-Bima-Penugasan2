@@ -1,2 +1,6 @@
 ---
 # vars file for backend-build
+db_name: 'pelatihan'
+db_user: 'root'
+db_password: ''
+db_host: 'localhost'
