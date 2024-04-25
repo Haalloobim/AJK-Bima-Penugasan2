@@ -1,4 +1,5 @@
 - import_playbook: prepare.yml
+- import_playbook: build.yml
 
 - name: Running All Playbooks
   hosts: all
