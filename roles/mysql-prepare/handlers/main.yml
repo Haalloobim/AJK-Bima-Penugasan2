@@ -1,2 +1,6 @@
 ---
 # handlers file for mysql-prepare
+- name: Restart mysql
+  service:
+    name: mysql
+    state: restarted

@@ -1,9 +1,8 @@
+- import_playbook: prepare.yml
+
 - name: Running All Playbooks
   hosts: all
   become: true
-  tasks:
-    - name: Include and run prepare tasks
-      include_tasks: prepare.yml
 
     # - name: Include and run build playbooks
     #   include_tasks: playbooks/build.yml

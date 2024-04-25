@@ -1,5 +1,11 @@
 ---
-# tasks file for nginx-prepare
+tasks file for nginx-prepare
+- name: update Depedency
+  apt:
+    update_cache: yes
+  become: yes
+  tags: update
+
 - name: Install nginx
   package:
     name: nginx
