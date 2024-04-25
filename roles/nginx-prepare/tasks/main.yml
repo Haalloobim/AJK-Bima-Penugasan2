@@ -1,2 +1,51 @@
 ---
 # tasks file for nginx-prepare
+- name: Install nginx
+  package:
+    name: nginx
+    state: present
+
+- name: Enable UFW
+  become: true
+  community.general.ufw:
+    state: enabled
+
+- name: Allow HTTP Port
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: 80
+
+- name: Allow HTTPS Port
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: 443
+
+- name: Allow Port 9000
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: 9000
+
+- name: Allow SSH Port
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: 22
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
+
+- name: Delete default
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Copy nginx template
+  template:
+    src: nginxTemplate.j2
+    dest: /etc/nginx/sites-available/frontend
+  notify: Restart nginx
