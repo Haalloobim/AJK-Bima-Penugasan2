@@ -1,0 +1,15 @@
+- name: Running All Playbooks
+  hosts: all
+  become: true
+  tasks:
+    - name: Include and run prepare playbooks
+      include_tasks: playbooks/prepare.yml
+
+    - name: Include and run build playbooks
+      include_tasks: playbooks/build.yml
+
+    - name: Include and run migrate playbooks
+      include_tasks: playbooks/migrate.yml
+
+    - name: Include and run deploy playbooks
+      include_tasks: playbooks/deploy.yml
