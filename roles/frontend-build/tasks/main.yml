@@ -1,2 +1,92 @@
 ---
 # tasks file for frontend-build
+- name: Installing npm package 
+  become: true
+  apt:
+    name: npm
+    state: present
+
+- name: Installing Curl package 
+  become: true
+  apt:
+    name: curl
+    state: present
+
+- name: Add Yarn GPG public key
+  become: true
+  shell: "curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -"
+
+- name: Add Yarn repository
+  become: true
+  shell: "echo 'deb https://dl.yarnpkg.com/debian/ stable main' | sudo tee /etc/apt/sources.list.d/yarn.list"
+  notify: Update apt package cache
+
+# - name: Install Yarn package
+#   become: true
+#   apt:
+#     name: yarn
+#     state: present
+#     update_cache: yes
+
+- name: Install Yarn globally
+  become: true
+  npm:
+    name: yarn
+    global: yes
+
+- name: Add safe directory for Git
+  community.general.git_config:
+    name: safe.directory
+    value: /var/www/fe-todo
+    add_mode: add
+    scope: global
+
+- name: Cloning FE Repository
+  git:
+    repo: https://github.com/elshiraphine/fe-todo.git
+    dest: /var/www/fe-todo
+    version: main
+    force: yes
+
+- name: Change permission in FE Repository
+  file:
+    path: /var/www/fe-todo
+    mode: '0777'
+    recurse: yes
+  become: true
+
+- name: Change permission 2
+  file:
+    path: /usr/local/bin
+    mode: '0777'
+    recurse: yes
+  become: true
+
+- name: See Package.json content
+  shell: "cat /var/www/fe-todo/package.json"
+  become: true
+
+- name: Install nvm
+  shell: >
+    curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh  | sh
+    creates=~/.nvm/nvm.sh
+
+- name: Install node and set version
+  shell: >
+    /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 18 && nvm alias default 18"
+    creates=~/.nvm/alias
+
+- name: Check nvm version
+  shell: > 
+    /bin/bash -c "source ~/.nvm/nvm.sh && nvm --version"
+
+- name: Check node version
+  shell: "node --version"
+
+- name: Installing PM2 package
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    state: present
+

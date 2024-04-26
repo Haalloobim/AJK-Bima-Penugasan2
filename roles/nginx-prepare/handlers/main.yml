@@ -1,6 +1,6 @@
 ---
 # handlers file for nginx-prepare
-- name: Restarting Nginx...
+- name: Restart nginx
   service:
     name: nginx
     state: restarted
