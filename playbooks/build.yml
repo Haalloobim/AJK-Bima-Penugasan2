@@ -1,0 +1,6 @@
+- name: Running Build Playbooks
+  hosts: all
+  become: true
+  roles: 
+    - roles/backend-build
+    - roles/frontend-build

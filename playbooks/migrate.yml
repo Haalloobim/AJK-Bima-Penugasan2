@@ -1,0 +1,5 @@
+- name: Running Migrate Playbooks
+  hosts: all
+  become: true
+  roles: 
+    - roles/backend-migrate

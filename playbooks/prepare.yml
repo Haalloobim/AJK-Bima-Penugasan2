@@ -1,0 +1,6 @@
+- name: Running nginx-prepare
+  hosts: all
+  become: true
+  roles: 
+    - roles/nginx-prepare
+    - roles/mysql-prepare

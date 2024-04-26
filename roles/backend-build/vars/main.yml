@@ -1,0 +1,4 @@
+---
+# vars file for backend-build
+vars_files:
+  - /env/vars.yml

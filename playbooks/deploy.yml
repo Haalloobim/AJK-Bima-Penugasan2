@@ -1,0 +1,6 @@
+- name: Running Deploy Playbooks
+  hosts: all
+  become: true
+  roles: 
+    - roles/backend-deploy
+    - roles/frontend-deploy 

@@ -1,0 +1,17 @@
+- import_playbook: prepare.yml
+- import_playbook: build.yml
+- import_playbook: migrate.yml
+- import_playbook: deploy.yml
+
+- name: Running All Playbooks
+  hosts: all
+  become: true
+
+    # - name: Include and run build playbooks
+    #   include_tasks: playbooks/build.yml
+
+    # - name: Include and run migrate playbooks
+    #   include_tasks: playbooks/migrate.yml
+
+    # - name: Include and run deploy playbooks
+    #   include_tasks: playbooks/deploy.yml

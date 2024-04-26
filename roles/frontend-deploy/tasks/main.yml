@@ -1,0 +1,65 @@
+---
+# tasks file for frontend-deploy
+- name: Change ownership
+  file:
+    path: /var/www/fe-todo
+    owner: www-data
+    group: www-data
+    recurse: yes
+  become: true
+
+- name: Remove Package-lock.json
+  become: true
+  shell: "rm package-lock.json"
+  args:
+    chdir: "/var/www/fe-todo"
+
+- name: Run yarn add to install dependencies
+  become: true
+  shell: >
+    /bin/bash -c "source ~/.nvm/nvm.sh && yarn install"
+  args:
+    chdir: "/var/www/fe-todo"
+
+- name: Run yarn build to build the project
+  become: true
+  shell: >
+    /bin/bash -c "source ~/.nvm/nvm.sh && yarn build"
+  args:
+    chdir: "/var/www/fe-todo"
+
+- name: Run yarn start to start the project
+  become: true
+  shell: >
+    /bin/bash -c "source ~/.nvm/nvm.sh && yarn start"
+  args:
+    chdir: "/var/www/fe-todo"
+  async: 1000
+  poll: 0
+  ignore_errors: yes
+  register: result
+
+- name: Copy FE template
+  become: true
+  copy:
+    src: templates/fe-template.j2
+    dest: /etc/nginx/sites-available/frontend
+
+- name: Link to site-enabled
+  file:
+    src: /etc/nginx/sites-available/frontend
+    dest: /etc/nginx/sites-enabled/frontend
+    state: link
+  become: true
+  notify: Restart nginx
+
+- name: Curl result
+  uri:
+    url: "http://localhost:3000"
+    method: GET
+    return_content: yes
+  register: result
+
+- name: Display response
+  debug:
+    var: result.content
