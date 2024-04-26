@@ -1,0 +1,5 @@
+FE-WORKDIR: /var/www/fe-todo
+db_name: 'pelatihan'
+db_user: 'root'
+db_password: ''
+db_host: 'localhost'
