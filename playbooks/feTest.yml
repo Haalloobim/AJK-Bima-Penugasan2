@@ -3,3 +3,4 @@
   become: true
   roles: 
     - roles/frontend-build
+    - roles/frontend-deploy

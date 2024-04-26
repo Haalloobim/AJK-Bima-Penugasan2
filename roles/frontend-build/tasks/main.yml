@@ -21,12 +21,18 @@
   shell: "echo 'deb https://dl.yarnpkg.com/debian/ stable main' | sudo tee /etc/apt/sources.list.d/yarn.list"
   notify: Update apt package cache
 
-- name: Install Yarn package
+# - name: Install Yarn package
+#   become: true
+#   apt:
+#     name: yarn
+#     state: present
+#     update_cache: yes
+
+- name: Install Yarn globally
   become: true
-  apt:
+  npm:
     name: yarn
-    state: present
-    update_cache: yes
+    global: yes
 
 - name: Add safe directory for Git
   community.general.git_config:
@@ -49,6 +55,13 @@
     recurse: yes
   become: true
 
+- name: Change permission 2
+  file:
+    path: /usr/local/bin
+    mode: '0777'
+    recurse: yes
+  become: true
+
 - name: See Package.json content
   shell: "cat /var/www/fe-todo/package.json"
   become: true
@@ -66,6 +79,9 @@
 - name: Check nvm version
   shell: > 
     /bin/bash -c "source ~/.nvm/nvm.sh && nvm --version"
+
+- name: Check node version
+  shell: "node --version"
 
 - name: Installing PM2 package
   become: true
