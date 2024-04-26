@@ -1,2 +1,46 @@
 ---
 # tasks file for frontend-build
+- name: Installing npm package 
+  become: true
+  apt:
+    name: npm
+    state: present
+
+- name: Installing Curl package 
+  become: true
+  apt:
+    name: curl
+    state: present
+
+- name: Move nvm install links to /tmp file
+  become: true
+  get_url:
+    url: "https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh"
+    dest: "/tmp/install_nvm.sh"
+
+- name: Execute nvm install script
+  become: true
+  shell: "bash /tmp/install_nvm.sh"
+  args:
+    creates: "{{ ansible_user_dir }}/.nvm"
+
+- name: Source .bashrc
+  become: true
+  shell: "source ~/.bashrc"
+  args:
+    executable: /bin/bash
+
+- name: Remove nvm install links in /tmp
+  become: true
+  file:
+    path: "/tmp/install_nvm.sh"
+    state: absent
+
+- name: Add Yarn GPG public key
+  become: true
+  shell: "curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -"
+
+- name: Add Yarn repository
+  become: true
+  shell: "echo 'deb https://dl.yarnpkg.com/debian/ stable main' | sudo tee /etc/apt/sources.list.d/yarn.list"
+  notify: Update apt package cache
