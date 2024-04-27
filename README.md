@@ -2,7 +2,7 @@
 
 ## By: Muhammad Bimatara Indianto / 5025221260
 
-## Deskripsi Penugsana Kedua 
+## Deskripsi Penugasan Kedua 
 
 Pada penugasan kedua, Camin diharuskan untuk mencoba mendeploy suatu _Web Service_ baik dari segi _Back-End_ maupun _Front-End_ menggunakan **_Ansible_**. Tujuan utama dari penugasan ini adalah bagaimana setelah script ansible ini dijalankan _Web Service_ dapat di tampilkan.
 
@@ -12,7 +12,7 @@ Pada penugasan kedua, Camin diharuskan untuk mencoba mendeploy suatu _Web Servic
 
 ## How to solve?
 
-Referensi saya dalam mengerjakan penugasan kedua kali ini adalah [Pelatihan Ansible](https://github.com/arsitektur-jaringan-komputer/modul-ansible) dan juga [Pelatihan Deployment](https://github.com/arsitektur-jaringan-komputer/modul-deployment). Terdapat 4 Playbooks yang harus dilengkapi dalam mengerjakan penugasan ini dan dijalankan pada playbooks kelima yaitu `main.yml`. Struktur direktory dari playbooks seperti berikut. 
+Referensi saya dalam mengerjakan penugasan kedua kali ini adalah [Pelatihan Ansible](https://github.com/arsitektur-jaringan-komputer/modul-ansible) dan juga [Pelatihan Deployment](https://github.com/arsitektur-jaringan-komputer/modul-deployment). Sedangkan untuk pengerjaan masing task pada roles yang dibuat mengacu pada dua referensi yaitu [[Referensi Roles Backend & Prepare]](https://github.com/nabilaaidah/ansible-modul-2-be) dan juga [[Referensi Roles Front End]](https://github.com/elshiraphine/fe-todo/blob/main/fe-deploy.sh). Terdapat 4 Playbooks yang harus dilengkapi dalam mengerjakan penugasan ini dan dijalankan pada playbooks kelima yaitu `main.yml`. Struktur direktory dari playbooks seperti berikut. 
 
 ![play](./src/play.png)
 
@@ -87,3 +87,48 @@ dengan cara sebagai berikut.
     - roles/backend-deploy
     - roles/frontend-deploy 
 ```
+
+## Proses Running Playbooks [[main.yml]](./playbooks/main.yml)
+Ketika hendak menjalankan playbooks main.yml, saya menggunakan command seperti berikut.
+
+```sh
+sudo ansible-playbook playbooks/main.yml -i inventory.ini
+```
+
+Berikut merupakan hasil dari command tersebut ketika selesai dijalankan. 
+
+![](./src/1.png)
+
+![](./src/2.png)
+
+![](./src/3.png)
+
+![](./src/4.png)
+
+Selain hasil dari command yang berhasil dieksekusi berikut juga tampilan Front end ketika berhasil di deploy dan ketika berhasil melakukan login. 
+
+![](./src/dashboard.png)
+
+![](./src/dashMain.png)
+
+Dan selain itu juga data yang dikirim oleh front end juga sudah masuk ke dalam database. Dapat dilihat pada gambar berikut. 
+
+![](./src/sql.png)
+
+## Kesimpulan 
+
+Untuk melakukan automated deployment menggunakan Ansible pada penugasan ini dapat dilakukan dengan cara diatas dengan skema sebagai berikut: 
+
+- Prepare: Melakukan preparation untuk Nginx dan juga MySQL.
+- Build: Melakukan proses Build baik pada Front End maupun Back End
+- Migrate: Melakukan Proses Migrate pada Backend
+- Deploy: Melakukan  Proses Deploy baik pada Front End maupun Back End
+
+## Credits 
+
+- [AJK](https://github.com/arsitektur-jaringan-komputer)
+- [Front End Repository](https://github.com/elshiraphine/fe-todo) 
+- [Back End Repository](https://github.com/elshiraphine/be-todo)
+- [Repository Backend Roles](https://github.com/nabilaaidah/ansible-modul-2-be)
+- [Pelatihan Ansible](https://github.com/arsitektur-jaringan-komputer/modul-ansible) 
+- [Pelatihan Deployment](https://github.com/arsitektur-jaringan-komputer/modul-deployment)
